@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WhatsApp Appeal Center</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    padding:20px;
+    color:white;
+    background:
+        radial-gradient(circle at top,#126044,#03130d 55%,#010806);
+}
+
+.container{
+    width:100%;
+    max-width:500px;
+    margin:auto;
+}
+
+.header{
+    text-align:center;
+    padding:25px 10px 15px;
+}
+
+.logo{
+    font-size:65px;
+    animation:float 2s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-8px);
+    }
+}
+
+h1{
+    font-size:27px;
+    margin-top:10px;
+}
+
+.subtitle{
+    margin-top:8px;
+    color:#a8daca;
+}
+
+.marquee{
+    overflow:hidden;
+    white-space:nowrap;
+    margin:18px 0;
+    padding:11px;
+    border-radius:10px;
+    background:#082d20;
+    border:1px solid #1d7653;
+}
+
+.marquee span{
+    display:inline-block;
+    padding-left:100%;
+    animation:jalan 12s linear infinite;
+    color:#45e99a;
+    font-weight:bold;
+}
+
+@keyframes jalan{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(-100%);
+    }
+}
+
+.card{
+    padding:20px;
+    border-radius:20px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.14);
+    box-shadow:0 15px 40px rgba(0,0,0,.4);
+}
+
+label{
+    display:block;
+    margin:15px 0 7px;
+    font-weight:bold;
+}
+
+input,
+textarea{
+    width:100%;
+    padding:13px;
+    border:none;
+    outline:none;
+    border-radius:10px;
+    background:#f5f5f5;
+    color:#111;
+    font-size:15px;
+}
+
+input[readonly]{
+    background:#dce9e4;
+}
+
+textarea{
+    height:260px;
+    resize:vertical;
+    line-height:1.5;
+}
+
+button{
+    width:100%;
+    margin-top:18px;
+    padding:15px;
+    border:none;
+    border-radius:11px;
+    background:#25D366;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:active{
+    transform:scale(.97);
+}
+
+.note{
+    text-align:center;
+    margin-top:15px;
+    color:#9bb7ad;
+    font-size:12px;
+    line-height:1.5;
+}
+
+.footer{
+    text-align:center;
+    margin-top:20px;
+    color:#66867a;
+    font-size:12px;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+#loadingScreen{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.94);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+.loadingBox{
+    width:90%;
+    max-width:400px;
+    text-align:center;
+    padding:30px 20px;
+    border-radius:22px;
+    background:#09251b;
+    border:1px solid #25D366;
+    box-shadow:0 0 40px rgba(37,211,102,.25);
+}
+
+.loadingIcon{
+    font-size:32px;
+    font-weight:900;
+    color:#25D366;
+    animation:tunggu 1s ease-in-out infinite;
+}
+
+@keyframes tunggu{
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.08);
+    }
+}
+
+.loadingBox h2{
+    margin:18px 0 8px;
+    color:#25D366;
+}
+
+.loadingBox p{
+    color:#b5d8ca;
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+.progress{
+    width:100%;
+    height:13px;
+    background:#17382c;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+#progressBar{
+    width:1%;
+    height:100%;
+    background:#25D366;
+    border-radius:20px;
+    transition:width .05s linear;
+}
+
+#percent{
+    margin-top:12px;
+    font-size:21px;
+    font-weight:bold;
+    color:#25D366;
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div class="logo">
+            📱
+        </div>
+
+        <h1>
+            WHATSAPP APPEAL
+        </h1>
+
+        <p class="subtitle">
+            Pengajuan Banding Akun WhatsApp
+        </p>
+
+    </div>
+
+
+    <div class="marquee">
+
+        <span>
+            🔔 AJUKAN BANDING • PERIKSA AKUN • WHATSAPP SUPPORT • AJUKAN BANDING • 🔔
+        </span>
+
+    </div>
+
+
+    <div class="card">
+
+        <!-- EMAIL PENERIMA -->
+
+        <label>
+            Email Penerima
+        </label>
+
+        <input
+            type="email"
+            id="penerima"
+            value="support@support.whatsapp.com"
+            readonly
+        >
+
+
+        <!-- EMAIL PENGIRIM -->
+
+        <label>
+            Email Pengirim
+        </label>
+
+        <input
+            type="email"
+            id="pengirim"
+            placeholder="Masukkan email Anda"
+        >
+
+
+        <!-- NOMOR -->
+
+        <label>
+            Nomor WhatsApp
+        </label>
+
+        <input
+            type="tel"
+            id="nomor"
+            placeholder="+628xxxxxxxxxx"
+        >
+
+
+        <!-- PESAN -->
+
+        <label>
+            Pesan Banding
+        </label>
+
+        <textarea id="pesan">Halo Tim WhatsApp,
+
+Saya ingin mengajukan banding atas pemblokiran akun WhatsApp saya karena terdeteksi melakukan spam. Saya merasa tidak melakukan aktivitas yang melanggar ketentuan WhatsApp atau tindakan yang bertujuan melakukan spam.
+
+Saya mohon pihak WhatsApp dapat melakukan pemeriksaan ulang terhadap akun saya secara manual. Jika pemblokiran ini terjadi akibat kesalahan sistem atau deteksi otomatis, saya berharap akun saya dapat dipulihkan kembali.
+
+Saya bersedia mengikuti seluruh Ketentuan Layanan WhatsApp dan menggunakan akun ini dengan baik.
+
+Mohon bantu periksa kembali akun saya dan pulihkan aksesnya apabila tidak ditemukan pelanggaran.
+
+Terima kasih atas bantuan dan perhatian Tim WhatsApp.</textarea>
+
+
+        <!-- BUTTON -->
+
+        <button onclick="kirimBanding()">
+            📩 KIRIM BANDING
+        </button>
+
+
+        <div class="note">
+
+            Tombol ini akan menyiapkan email banding
+            dan membuka aplikasi email pada perangkat Anda.
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        WhatsApp Appeal Center
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+function kirimBanding(){
+
+    const penerima =
+        document.getElementById("penerima").value;
+
+    const pengirim =
+        document.getElementById("pengirim").value.trim();
+
+    const nomor =
+        document.getElementById("nomor").value.trim();
+
+    const pesan =
+        document.getElementById("pesan").value.trim();
+
+
+    /* CEK EMAIL */
+
+    if(!pengirim){
+
+        alert(
+            "Silakan masukkan email pengirim."
+        );
+
+        return;
+    }
+
+
+    /* CEK NOMOR */
+
+    if(!nomor){
+
+        alert(
+            "Silakan masukkan nomor WhatsApp."
+        );
+
+        return;
+    }
+
+
+    /* ISI EMAIL */
+
+    const isi =
+`${pesan}
+
+--------------------------------
+
+Nomor WhatsApp:
+${nomor}
+
+Email Pengirim:
+${pengirim}
+
+--------------------------------
+
+Mohon dilakukan pemeriksaan ulang terhadap akun saya.
+
+Terima kasih.`;
+
+
+    const subject =
+        "Pengajuan Banding Akun WhatsApp";
+
+
+    const mailto =
+        "mailto:" + penerima +
+        "?subject=" +
+        encodeURIComponent(subject) +
+        "&body=" +
+        encodeURIComponent(isi);
+
+
+    /* BUAT LOADING */
+
+    const loading =
+        document.createElement("div");
+
+    loading.id =
+        "loadingScreen";
+
+
+    loading.innerHTML = `
+
+        <div class="loadingBox">
+
+            <div class="loadingIcon">
+                TUNGGU TUAN 😹😹
+            </div>
+
+            <h2>
+                MEMPROSES BANDING
+            </h2>
+
+            <p id="loadingText">
+                Sabar dulu tuan... 😹
+            </p>
+
+            <div class="progress">
+
+                <div id="progressBar">
+                </div>
+
+            </div>
+
+            <div id="percent">
+                1%
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(loading);
+
+
+    /* PROGRESS */
+
+    let persen = 1;
+
+
+    const interval =
+        setInterval(function(){
+
+            persen++;
+
+
+            document.getElementById(
+                "progressBar"
+            ).style.width =
+                persen + "%";
+
+
+            document.getElementById(
+                "percent"
+            ).innerText =
+                persen + "%";
+
+
+            /* TEKS BERUBAH */
+
+            if(persen < 20){
+
+                document.getElementById(
+                    "loadingText"
+                ).innerText =
+                    "Sabar dulu tuan... 😹";
+
+            }
+
+
+            else if(persen < 40){
+
+                document.getElementById(
+                    "loadingText"
+                ).innerText =
+                    "Lagi nyiapin data tuan 😹";
+
+            }
+
+
+            else if(persen < 60){
+
+                document.getElementById(
+                    "loadingText"
+                ).innerText =
+                    "Jangan ditutup tuan 😹";
+
+            }
+
+
+            else if(persen < 80){
+
+                document.getElementById(
+                    "loadingText"
+                ).innerText =
+                    "Dikit lagi tuan... 😹";
+
+            }
+
+
+            else if(persen < 100){
+
+                document.getElementById(
+                    "loadingText"
+                ).innerText =
+                    "Hampir selesai tuan 😹";
+
+            }
+
+
+            /* SELESAI */
+
+            else{
+
+                clearInterval(interval);
+
+
+                document.getElementById(
+                    "loadingText"
+                ).innerText =
+                    "SELESAI TUAN 😹🔥";
+
+
+                setTimeout(function(){
+
+                    window.location.href =
+                        mailto;
+
+                },1000);
+
+            }
+
+
+        },40);
+
+}
+
+</script>
+
+</body>
+</html>
